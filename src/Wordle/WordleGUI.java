@@ -1,7 +1,6 @@
 package Wordle;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.io.*;
 
@@ -10,6 +9,13 @@ public class WordleGUI extends JFrame {
     private final JPanel gridPanel; // Panel de cuadriculas
 
     public WordleGUI() {
+        // Configurar LookAndFeel para garantizar compatibilidad entre plataformas
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
         setTitle("Wordle - Java Edition");
         setSize(500, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,7 +49,6 @@ public class WordleGUI extends JFrame {
             cell.setEnabled(false); // No es necesario que los botones sean interactivos
             gridPanel.add(cell);
         }
-
 
         JPanel inputPanel = new JPanel(new BorderLayout());
         inputPanel.add(inputField, BorderLayout.CENTER);
@@ -101,13 +106,16 @@ public class WordleGUI extends JFrame {
 
                 // Mostrar la letra en la celda
                 cell.setText(String.valueOf(letter));
+
                 // Forzar actualización de la celda
                 cell.revalidate();
                 cell.repaint();
             }
+
+            // Forzar la actualización del panel principal
+            gridPanel.repaint();
         });
     }
-
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new WordleGUI().setVisible(true));
